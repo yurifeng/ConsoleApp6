@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleApp6
 {
@@ -19,16 +21,29 @@ namespace ConsoleApp6
 
             #region 反射机制调用程序
 
-            ITank tank = new HeavyTank();
-            Type type = tank.GetType();
-            object instance = Activator.CreateInstance(type);
-            MethodInfo methodInfo = type.GetMethod("Fire");
-            MethodInfo methodInfo2 = type.GetMethod("Run");
-            methodInfo.Invoke(instance, null);
-            methodInfo2.Invoke(instance, null);
+            //ITank tank = new HeavyTank();
+            //Type type = tank.GetType();
+            //object instance = Activator.CreateInstance(type);
+            //MethodInfo methodInfo = type.GetMethod("Fire");
+            //MethodInfo methodInfo2 = type.GetMethod("Run");
+            //methodInfo.Invoke(instance, null);
+            //methodInfo2.Invoke(instance, null);
 
             #endregion
 
+
+            #region C#的依赖注入
+
+            //一次性的注册(包含下面三行代码)
+            ServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddScoped(typeof(ITank), typeof(HeavyTank));
+            ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+            //
+            ITank tank = serviceProvider.GetService<ITank>();
+            tank.Fire();
+            tank.Run();
+
+            #endregion
 
         }
     }

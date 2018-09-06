@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace ConsoleApp6
 {
@@ -6,11 +7,21 @@ namespace ConsoleApp6
     {
         static void Main(string[] args)
         {
-            Driver driver = new Driver(new HeavyTank());
-            driver.Drive();
+            //Driver driver = new Driver(new HeavyTank());
+            //driver.Drive();
 
-            Driver driver2 = new Driver(new Car());
-            driver2.Drive();
+            //Driver driver2 = new Driver(new Car());
+            //driver2.Drive();
+
+            ITank tank = new HeavyTank();
+            Type type = tank.GetType();
+            object instance = Activator.CreateInstance(type);
+            MethodInfo methodInfo = type.GetMethod("Fire");
+            MethodInfo methodInfo2 = type.GetMethod("Run");
+            methodInfo.Invoke(instance, null);
+            methodInfo2.Invoke(instance, null);
+
+
         }
     }
 

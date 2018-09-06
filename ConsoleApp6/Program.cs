@@ -7,11 +7,17 @@ namespace ConsoleApp6
     {
         static void Main(string[] args)
         {
+            #region 普通代码
+
             //Driver driver = new Driver(new HeavyTank());
             //driver.Drive();
 
             //Driver driver2 = new Driver(new Car());
             //driver2.Drive();
+
+            #endregion
+
+            #region 反射机制调用程序
 
             ITank tank = new HeavyTank();
             Type type = tank.GetType();
@@ -20,6 +26,8 @@ namespace ConsoleApp6
             MethodInfo methodInfo2 = type.GetMethod("Run");
             methodInfo.Invoke(instance, null);
             methodInfo2.Invoke(instance, null);
+
+            #endregion
 
 
         }
